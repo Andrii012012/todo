@@ -4,6 +4,7 @@ import SignIn from "./components/SignIn/SignIn";
 import { UserContext } from "../../App";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import CreateTodoList from "../../components/CreateTodoList/CreateTodoList";
 
 interface IProps {
     setUser: React.Dispatch<React.SetStateAction<any>>;
@@ -27,6 +28,7 @@ export default function Home(props: IProps) {
                 <Register />
                 <SignIn setUser={setUser} />
             </div>
+            <CreateTodoList />
         </section>
     )
 }
