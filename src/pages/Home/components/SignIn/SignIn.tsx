@@ -30,6 +30,8 @@ export default function SignIn(props: IProps) {
             const user = userCredential.user;
             if (user && user.displayName === data.name) {
                 setUser(user);
+                const token = await user.getIdToken();
+                localStorage.setItem('tokenUser', token);
             }
         } catch {
 
