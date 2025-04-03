@@ -4,7 +4,8 @@ import { HOME_PATH } from './routes/routes';
 import Home from './pages/Home/Home';
 import { createContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, firestore } from './firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const UserContext = createContext(null);
 
@@ -14,18 +15,24 @@ function App() {
 
   useEffect(() => {
 
-    const tokenLocal = localStorage.getItem('tokenUser');
-    if (tokenLocal) {
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          const token = await user.getIdToken();
-          if (token === tokenLocal) {
-            setUser(user);
+    (async function () {
+
+      const tokenLocal = localStorage.getItem('tokenUser');
+      if (tokenLocal) {
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const token = await user.getIdToken();
+            if (token === tokenLocal) {
+              setUser(user);
+            }
           }
-        }
-      });
-    }
+        });
+      }
+
+    }())
   }, []);
+
+  
 
   return (
     <Layout>

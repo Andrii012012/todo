@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { auth, } from "../../../../firebase";
+import { auth, firestore, } from "../../../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from "firebase/firestore";
 
 type TData = Record<'name' | 'email' | "password", string>;
 
@@ -27,6 +28,13 @@ export default function Register() {
             });
 
             await user.user.reload();
+
+            const userRef = doc(firestore, "users", user.user.uid);
+
+            await setDoc(userRef, {
+                email: data.email,
+                role: 'Viewer',
+            });
 
         } catch (error) {
 
